@@ -22,9 +22,11 @@
   <img src="./assets/light/h-about.svg" width="100%" alt="About me" />
 </picture>
 
-I like building software where the AI is useful *and* checkable. Most recently I led a team of three to build a factory management information system for a real food manufacturer, with plain-English analytics, a role-aware AI assistant and in-browser person detection. Our team was picked to present it to the client.
+I like building software where the AI is useful *and* checkable. From June to August 2026 I led a team of three to build a factory management information system for a real food manufacturer, and our team was picked to present it to the client. As lead I set the coding standards, split the work, reviewed pull requests before merging and fixed deployment problems so the others could keep building.
 
-I'm looking for a **2027 internship in applied AI or data analytics**, and after my diploma I'm aiming for a university degree in analytics or computing. I'm also a subcommittee member at NYP Cloud Computing.
+My own parts were the plain-English analytics (a question becomes read-only SQL on approved tables, with row and time limits, and I tested the guardrails by trying to break them), an AI assistant with read-only tools and role checks, in-browser person detection that times how long someone stays in a restricted zone and drafts the incident report with an AI vision model, and incident reporting from dashboards and CSV export to automatic escalation of overdue incidents.
+
+I'm looking for a **2027 internship in applied AI or data analytics**, and after my diploma I'm aiming for a university degree in analytics or computing. I'm also a subcommittee member at NYP Cloud Computing. Through it I took part in the AWS × NYP Cloud Hackathon 2026 and got hands-on with Kiro, AWS's agentic IDE.
 
 <br />
 
