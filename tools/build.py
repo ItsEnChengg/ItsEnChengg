@@ -1,5 +1,4 @@
 """Generate every SVG asset for EnChengg's GitHub profile README."""
-import math
 import sys
 from pathlib import Path
 
@@ -16,14 +15,8 @@ DARK = dict(name="dark", card="#10161D", panel="#141C24", border="#25303A", ink=
 LIGHT = dict(name="light", card="#FFFFFF", panel="#F6F5F0", border="#DCDBD3", ink="#111418",
              ink2="#3D434A", mute="#5B6169", acc="#B45309", accg="#D97706", dot="#DAD9D0",
              chip="#CFCEC5", soft=0.10, street="#E7E6DE")
-BRAND = dict(bg="#0F151B", grid="#1A232C", ink="#F3F1EA", ink2="#C9D1D8", mute="#8E9BA7",
-             acc="#F2A541", dot="#273340", chipb="#33424F", edge="#222C36")
-
-MOTION = ("@media (prefers-reduced-motion:reduce){*{animation:none!important}}"
-          "@keyframes ping{0%{transform:scale(1);opacity:.75}100%{transform:scale(3.2);opacity:0}}"
-          ".ping{opacity:0;transform-box:fill-box;transform-origin:center;"
-          "animation:ping 2.4s ease-out infinite}")
-
+BRAND = dict(bg="#0F151B", ink="#F3F1EA", ink2="#C9D1D8", mute="#8E9BA7",
+             acc="#F2A541", edge="#222C36")
 
 def save(svg, rel):
     path = OUT / "assets" / rel
@@ -41,130 +34,27 @@ def chip(s, x, cy, label, fill=None, stroke=None, color="#000", fam="mono", wt=5
     return w
 
 
-def ping_dot(s, cx, cy, r, color, delay=0):
-    s.add(f'<circle class="ping" cx="{cx}" cy="{cy}" r="{r}" fill="none" stroke="{color}" '
-          f'stroke-width="2" style="animation-delay:{delay}s"/>',
-          f'<circle cx="{cx}" cy="{cy}" r="{r}" fill="{color}"/>')
-
-
 # --------------------------------------------------------------------------- hero
-HEIGHTS = [1, 2, 1, 2, 3, 2, 4, 3, 5, 6, 6, 8]
-
-
-def dot_columns(s, x0, base, step, r, heights, top_color, rest_color, delay0=0.25):
-    tops = []
-    for i, n in enumerate(heights):
-        x = x0 + i * step
-        dots = []
-        for k in range(n):
-            y = base - k * step
-            c = top_color if k == n - 1 else rest_color
-            dots.append(f'<circle cx="{x}" cy="{y}" r="{r}" fill="{c}"/>')
-        s.add(f'<g class="col" style="animation-delay:{delay0 + i * 0.06:.2f}s">' + "".join(dots) + "</g>")
-        tops.append((x, base - (n - 1) * step))
-    return tops
-
-
 def hero():
-    W, H = 1280, 440
+    W, X = 1280, 64
     B = BRAND
+    summary = ("Full-stack AI systems, messy data turned into decisions, serverless apps on AWS "
+               "and responsible AI in practice.")
+    lines = wrap(summary, "sans", 400, 26, W - 2 * X - 120)
+    assert len(lines) <= 2, lines
+    H = 262 + len(lines) * 36 + 70
     s = Svg(W, H, "En Cheng Neo",
             "Diploma in Applied AI and Analytics student at Nanyang Polytechnic, Singapore. "
-            "Building full-stack AI systems, turning messy data into decisions, deploying serverless "
-            "apps on AWS and putting responsible AI into practice. Open to 2027 internships.")
-    s.defs.append(f'<clipPath id="cl"><rect width="{W}" height="{H}" rx="22"/></clipPath>'
-                  f'<pattern id="gr" width="40" height="40" patternUnits="userSpaceOnUse">'
-                  f'<path d="M40 0H0V40" fill="none" stroke="{B["grid"]}" stroke-width="1"/></pattern>'
-                  '<linearGradient id="fadeg" x1="0" x2="1"><stop offset="0" stop-color="#fff" stop-opacity=".25"/>'
-                  '<stop offset="1" stop-color="#fff"/></linearGradient>'
-                  f'<mask id="gm"><rect width="{W}" height="{H}" fill="url(#fadeg)"/></mask>'
-                  '<radialGradient id="glow" cx=".82" cy=".72" r=".55">'
-                  f'<stop offset="0" stop-color="{B["acc"]}" stop-opacity=".16"/>'
-                  f'<stop offset="1" stop-color="{B["acc"]}" stop-opacity="0"/></radialGradient>'
-                  '<linearGradient id="area" x1="0" x2="0" y1="0" y2="1">'
-                  f'<stop offset="0" stop-color="{B["acc"]}" stop-opacity=".22"/>'
-                  f'<stop offset="1" stop-color="{B["acc"]}" stop-opacity="0"/></linearGradient>')
-    s.add('<g clip-path="url(#cl)">',
-          f'<rect width="{W}" height="{H}" fill="{B["bg"]}"/>',
-          f'<rect width="{W}" height="{H}" fill="url(#gr)" mask="url(#gm)"/>',
-          f'<rect width="{W}" height="{H}" fill="url(#glow)"/>', "</g>",
-          f'<rect x=".75" y=".75" width="{W - 1.5}" height="{H - 1.5}" rx="21.5" fill="none" stroke="{B["edge"]}" stroke-width="1.5"/>')
-
-    X = 72
-    label = "DIPLOMA IN APPLIED AI & ANALYTICS · NANYANG POLYTECHNIC"
-    s.add(f'<rect x="{X}" y="83" width="12" height="12" fill="{B["acc"]}"/>',
-          s.text(X + 26, 95, label, "mono", 500, 16, B["acc"], ls=2.4))
-    name_size = 112
-    assert measure("En Cheng Neo", "sg", 700, name_size, -2.2) < 720
-    s.add(s.text(X - 4, 206, "En Cheng Neo", "sg", 700, name_size, B["ink"], ls=-2.2))
-
-    # typing line (SMIL, so it also runs inside GitHub's <img>)
-    size, cw, base = 28, 16.8, 270
-    x0 = X + 2 * cw
-    phrases = ["building full-stack AI systems", "turning messy data into decisions",
-               "deploying serverless apps on AWS", "putting responsible AI into practice"]
-    D, tt, hold, dt = 5.0, 1.6, 2.5, 0.55
-    T = D * len(phrases)
-    s.add(s.text(X, base, ">", "mono", 500, size, B["acc"]))
-    cursor = [(0.0, 0.0)]
-    for i, p in enumerate(phrases):
-        n, st = len(p), i * D
-        ev = [(0.0, 0.0)] if st > 0 else []
-        ev += [(st + k * tt / n, k * cw) for k in range(1, n + 1)]
-        ev += [(st + tt + hold + k * dt / n, (n - k) * cw) for k in range(1, n + 1)]
-        if st == 0:
-            ev = [(0.0, 0.0)] + ev
-        cursor += [e for e in ev if e[0] > 0]
-        kt = ";".join(f"{t / T:.4f}" for t, _ in ev)
-        vals = ";".join(f"{w:.1f}" for _, w in ev)
-        s.defs.append(f'<clipPath id="tp{i}"><rect x="{x0}" y="{base - 30}" width="0" height="42">'
-                      f'<animate attributeName="width" dur="{T}s" repeatCount="indefinite" calcMode="discrete" '
-                      f'keyTimes="{kt}" values="{vals}"/></rect></clipPath>')
-        s.add(s.text(x0, base, p, "mono", 400, size, B["ink2"], extra=f' clip-path="url(#tp{i})"'))
-        assert x0 + n * cw < 760, p
-    cursor.sort()
-    kt = ";".join(f"{t / T:.4f}" for t, _ in cursor)
-    vals = ";".join(f"{x0 + 4 + w:.1f}" for _, w in cursor)
-    s.add(f'<rect class="blink" x="{x0 + 4}" y="{base - 24}" width="13" height="30" fill="{B["acc"]}">'
-          f'<animate attributeName="x" dur="{T}s" repeatCount="indefinite" calcMode="discrete" '
-          f'keyTimes="{kt}" values="{vals}"/></rect>')
-
-    # skill chips
-    x = X
-    for c in ["Python", "React", "Node.js", "AWS", "Responsible AI"]:
-        x += chip(s, x, 352, c, stroke=B["chipb"], color=B["ink2"], size=16, h=38) + 10
-
-    # status pill, top right
-    st_label = "OPEN TO 2027 INTERNSHIPS"
-    pw = measure(st_label, "mono", 500, 14, 1.6) + 54
-    px = 1208 - pw
-    s.add(f'<rect x="{px:.1f}" y="66" width="{pw:.1f}" height="36" rx="18" fill="{B["acc"]}" '
-          f'fill-opacity=".1" stroke="{B["acc"]}" stroke-opacity=".55" stroke-width="1.5"/>',
-          f'<circle class="pulse" cx="{px + 22:.1f}" cy="84" r="5" fill="{B["acc"]}"/>',
-          s.text(px + 38, 89, st_label, "mono", 500, 14, B["acc"], ls=1.6))
-
-    # rising dot columns + trend line
-    tops = dot_columns(s, 840, 374, 32, 6, HEIGHTS, B["acc"], B["dot"])
-    pts = " ".join(f"{x},{y}" for x, y in tops)
-    L = sum(math.dist(tops[i], tops[i + 1]) for i in range(len(tops) - 1))
-    area = f"M{tops[0][0]},{tops[0][1]} " + " ".join(f"L{x},{y}" for x, y in tops[1:]) + \
-        f" L{tops[-1][0]},388 L{tops[0][0]},388Z"
-    s.add(f'<path class="area" d="{area}" fill="url(#area)"/>',
-          f'<polyline class="tr" points="{pts}" fill="none" stroke="{B["acc"]}" stroke-width="3" '
-          f'stroke-linejoin="round" stroke-linecap="round"/>')
-    ex, ey = tops[-1]
-    ping_dot(s, ex, ey, 9, B["acc"], delay=2.6)
-    s.add(s.text(ex, ey - 24, "now", "mono", 500, 14, B["acc"], anchor="middle"))
-    s.add(f'<line x1="826" y1="396" x2="1208" y2="396" stroke="{B["chipb"]}" stroke-width="1.5"/>')
-
-    s.css.append(MOTION + (
-        ".col{animation:rise .55s cubic-bezier(.2,.7,.2,1) both}"
-        "@keyframes rise{from{opacity:0;transform:translateY(16px)}}"
-        f".tr{{stroke-dasharray:{L:.1f};animation:draw 1.6s ease-out 1s both}}"
-        f"@keyframes draw{{from{{stroke-dashoffset:{L:.1f}}}to{{stroke-dashoffset:0}}}}"
-        ".area{animation:fade 1s ease-out 2.2s both}@keyframes fade{from{opacity:0}}"
-        ".blink{animation:blink 1.05s steps(1) infinite}@keyframes blink{50%{opacity:0}}"
-        ".pulse{animation:pulse 2s ease-in-out infinite}@keyframes pulse{50%{opacity:.3}}"))
+            + summary + " Open to 2027 internships in applied AI and data analytics.")
+    s.add(f'<rect x=".75" y=".75" width="{W - 1.5}" height="{H - 1.5}" rx="18" fill="{B["bg"]}" '
+          f'stroke="{B["edge"]}" stroke-width="1.5"/>',
+          s.text(X, 84, "Diploma in Applied AI & Analytics, Nanyang Polytechnic", "sans", 500, 21, B["ink2"]))
+    assert measure("En Cheng Neo", "sg", 700, 96, -1.5) < W - 2 * X
+    s.add(s.text(X - 3, 184, "En Cheng Neo", "sg", 700, 96, B["ink"], ls=-1.5))
+    for i, ln in enumerate(lines):
+        s.add(s.text(X, 246 + i * 36, ln, "sans", 400, 26, B["ink2"]))
+    s.add(s.text(X, 246 + len(lines) * 36 + 22, "Open to 2027 internships in applied AI and data analytics.",
+                 "sans", 500, 22, B["acc"]))
     save(s, "hero.svg")
 
 
@@ -192,18 +82,13 @@ def badge(fname, icon, label, title):
 
 
 # ---------------------------------------------------------------- section headers
-SECTIONS = [("about", "01", "About me"), ("toolkit", "02", "Toolkit"),
-            ("credentials", "03", "Credentials"), ("now", "04", "Right now")]
+SECTIONS = [("about", "About me"), ("toolkit", "Toolkit"),
+            ("credentials", "Credentials"), ("now", "Right now")]
 
 
-def header(T, slug, num, title):
-    W, H = 1200, 92
-    s = Svg(W, H, f"{num} {title}")
-    s.add(s.text(0, 62, num, "mono", 500, 22, T["acc"], ls=1),
-          s.text(46, 64, title, "sg", 700, 40, T["ink"], ls=-0.6))
-    end = 46 + measure(title, "sg", 700, 40, -0.6) + 28
-    s.add(f'<line x1="{end:.1f}" y1="50" x2="1180" y2="50" stroke="{T["border"]}" stroke-width="2"/>',
-          f'<circle cx="1188" cy="50" r="6" fill="{T["accg"]}"/>')
+def header(T, slug, title):
+    s = Svg(1200, 92, title)
+    s.add(s.text(0, 74, title, "sg", 700, 38, T["ink"], ls=-0.5))
     save(s, f'{T["name"]}/h-{slug}.svg')
 
 
@@ -250,10 +135,10 @@ def stack(T):
 
 # ------------------------------------------------------------------ toolkit card
 PRACTICES = [
-    ("DATA & AI", ["pandas", "KNIME", "data wrangling", "forecasting", "computer vision",
+    ("Data & AI", ["pandas", "KNIME", "data wrangling", "forecasting", "computer vision",
                    "text-to-SQL", "LLM APIs & agents"]),
-    ("CLOUD", ["AWS Lambda", "API Gateway", "S3", "DynamoDB", "SAM", "Alibaba Cloud", "Railway", "Netlify"]),
-    ("RESPONSIBLE AI", ["accountability & transparency", "IT governance (COBIT)", "source-grounded AI output",
+    ("Cloud", ["AWS Lambda", "API Gateway", "S3", "DynamoDB", "SAM", "Alibaba Cloud", "Railway", "Netlify"]),
+    ("Responsible AI", ["accountability & transparency", "IT governance (COBIT)", "source-grounded AI output",
                         "privacy-first design"]),
 ]
 
@@ -283,8 +168,7 @@ def toolkit(T):
     for k, (label, lines, y0) in enumerate(rows):
         if k:
             s.add(f'<line x1="{LX}" y1="{y0 - 23}" x2="{R}" y2="{y0 - 23}" stroke="{T["border"]}" stroke-width="1.5"/>')
-        s.add(f'<rect x="{LX}" y="{y0 - 1}" width="10" height="10" fill="{T["accg"]}"/>',
-              s.text(LX + 22, y0 + 10, label, "mono", 500, 15, T["acc"], ls=1.5))
+        s.add(s.text(LX, y0 + 11, label, "sans", 500, 18, T["ink"]))
         for j, ln in enumerate(lines):
             x = CX
             for it in ln:
@@ -294,36 +178,28 @@ def toolkit(T):
 
 # -------------------------------------------------------------- credentials card
 CREDS = [
-    ("cert", "AWS · FOUNDATIONAL", "AWS Certified Cloud Practitioner"),
-    ("cert", "ALIBABA CLOUD · ASSOCIATE", "Certified Associate: Cloud Engineer"),
-    ("cert", "AI SINGAPORE", "AI4I Literacy in AI"),
+    ("cert", "AWS · Foundational", "AWS Certified Cloud Practitioner"),
+    ("cert", "Alibaba Cloud · Associate", "Certified Associate: Cloud Engineer"),
+    ("cert", "AI Singapore", "AI4I Literacy in AI"),
     ("cert", "KNIME", "Basic Proficiency in KNIME Analytics Platform"),
-    ("medal", "NYP · DISTINCTION", "Data Wrangling"),
-    ("medal", "NYP · DISTINCTION", "Cybersecurity Technologies & Ethics"),
 ]
 
 
 def credentials(T):
-    W, cols, gap, th = 1200, 3, 20, 156
+    W, cols, gap, th = 1200, 2, 20, 156
     tw = (W - gap * (cols - 1)) / cols
     H = th * 2 + gap
     s = Svg(W, H, "Credentials",
-            "Certifications: " + "; ".join(n for k, _, n in CREDS if k == "cert") +
-            ". Distinctions at Nanyang Polytechnic: Data Wrangling; Cybersecurity Technologies and Ethics.")
+            "Certifications: " + "; ".join(n for k, _, n in CREDS if k == "cert") + ".")
     for i, (kind, label, name) in enumerate(CREDS):
         x, y = (i % cols) * (tw + gap), (i // cols) * (th + gap)
         s.add(f'<rect x="{x + 1:.1f}" y="{y + 1}" width="{tw - 2:.1f}" height="{th - 2}" rx="15" '
               f'fill="{T["card"]}" stroke="{T["border"]}" stroke-width="2"/>')
         ix, iy = x + 28, y + 24
-        if kind == "cert":
-            s.add(f'<g transform="translate({ix:.1f} {iy})" fill="none" stroke="{T["accg"]}" stroke-width="2.2" '
-                  f'stroke-linejoin="round" stroke-linecap="round"><path d="M14 1l12 7v14l-12 7-12-7V8z"/>'
-                  f'<path d="M9 15l3.5 3.5L19.5 11"/></g>')
-        else:
-            s.add(f'<g transform="translate({ix:.1f} {iy})" fill="none" stroke="{T["accg"]}" stroke-width="2.2" '
-                  f'stroke-linejoin="round" stroke-linecap="round"><circle cx="14" cy="11" r="9"/>'
-                  f'<path d="M9 18.5L6 29l8-4 8 4-3-10.5"/><path d="M14 6.5l1.4 2.8 3 .4-2.2 2.1.5 3-2.7-1.4-2.7 1.4.5-3-2.2-2.1 3-.4z" stroke-width="1.4"/></g>')
-        s.add(s.text(x + 72, y + 44, label, "mono", 500, 14, T["acc"], ls=1.4))
+        s.add(f'<g transform="translate({ix:.1f} {iy})" fill="none" stroke="{T["accg"]}" stroke-width="2.2" '
+              f'stroke-linejoin="round" stroke-linecap="round"><path d="M14 1l12 7v14l-12 7-12-7V8z"/>'
+              f'<path d="M9 15l3.5 3.5L19.5 11"/></g>')
+        s.add(s.text(x + 72, y + 45, label, "sans", 500, 17, T["mute"]))
         lines = wrap(name, "sg", 700, 23, tw - 56)
         assert len(lines) <= 2, lines
         for j, ln in enumerate(lines):
@@ -333,34 +209,15 @@ def credentials(T):
 
 # --------------------------------------------------------------------------- footer
 def footer():
-    W, H = 1280, 250
+    W, H = 1280, 96
     B = BRAND
+    msg = "Thanks for stopping by. Open to 2027 internships in applied AI and data analytics."
+    assert measure(msg, "sans", 400, 22) < W - 128
     s = Svg(W, H, "Thanks for stopping by",
             "Open to 2027 internships in applied AI and data analytics.")
-    s.defs.append(f'<clipPath id="cl"><rect width="{W}" height="{H}" rx="22"/></clipPath>'
-                  f'<pattern id="gr" width="40" height="40" patternUnits="userSpaceOnUse">'
-                  f'<path d="M40 0H0V40" fill="none" stroke="{B["grid"]}" stroke-width="1"/></pattern>'
-                  '<radialGradient id="glow" cx=".85" cy=".8" r=".6">'
-                  f'<stop offset="0" stop-color="{B["acc"]}" stop-opacity=".14"/>'
-                  f'<stop offset="1" stop-color="{B["acc"]}" stop-opacity="0"/></radialGradient>')
-    s.add('<g clip-path="url(#cl)">', f'<rect width="{W}" height="{H}" fill="{B["bg"]}"/>',
-          f'<rect width="{W}" height="{H}" fill="url(#gr)" opacity=".7"/>',
-          f'<rect width="{W}" height="{H}" fill="url(#glow)"/></g>',
-          f'<rect x=".75" y=".75" width="{W - 1.5}" height="{H - 1.5}" rx="21.5" fill="none" stroke="{B["edge"]}" stroke-width="1.5"/>')
-    s.add(f'<rect x="72" y="70" width="10" height="10" fill="{B["acc"]}"/>',
-          s.text(94, 80, "THANKS FOR STOPPING BY", "mono", 500, 15, B["acc"], ls=2.2),
-          s.text(68, 144, "Let's build something useful.", "sg", 700, 52, B["ink"], ls=-1.2),
-          s.text(72, 190, "Open to 2027 internships in applied AI and data analytics.", "sans", 400, 22, B["ink2"]))
-    tops = dot_columns(s, 1000, 196, 24, 4.5, [1, 2, 2, 3, 4, 4, 5, 6], B["acc"], B["dot"], delay0=0.1)
-    L = sum(math.dist(tops[i], tops[i + 1]) for i in range(len(tops) - 1))
-    s.add(f'<polyline class="tr" points="{" ".join(f"{x},{y}" for x, y in tops)}" fill="none" '
-          f'stroke="{B["acc"]}" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>')
-    ex, ey = tops[-1]
-    ping_dot(s, ex, ey, 6.5, B["acc"], delay=1.6)
-    s.css.append(MOTION + ".col{animation:rise .5s ease-out both}"
-                 "@keyframes rise{from{opacity:0;transform:translateY(12px)}}"
-                 f".tr{{stroke-dasharray:{L:.1f};animation:draw 1.2s ease-out .7s both}}"
-                 f"@keyframes draw{{from{{stroke-dashoffset:{L:.1f}}}to{{stroke-dashoffset:0}}}}")
+    s.add(f'<rect x=".75" y=".75" width="{W - 1.5}" height="{H - 1.5}" rx="18" fill="{B["bg"]}" '
+          f'stroke="{B["edge"]}" stroke-width="1.5"/>',
+          s.text(64, 56, msg, "sans", 400, 22, B["ink2"]))
     save(s, "footer.svg")
 
 
@@ -371,8 +228,8 @@ if __name__ == "__main__":
     badge("badge-email.svg", "email", "neoencheng.work@gmail.com", "Email")
     badge("badge-location.svg", "pin", "Singapore", "Based in Singapore")
     for T in (LIGHT, DARK):
-        for slug, num, title in SECTIONS:
-            header(T, slug, num, title)
+        for slug, title in SECTIONS:
+            header(T, slug, title)
         stack(T)
         toolkit(T)
         credentials(T)

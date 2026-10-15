@@ -6,7 +6,7 @@
 -->
 
 <p align="center">
-  <img src="./assets/hero.svg" width="100%" alt="En Cheng Neo. Diploma in Applied AI and Analytics, Nanyang Polytechnic, Singapore. Building full-stack AI systems, turning messy data into decisions, deploying serverless apps on AWS and putting responsible AI into practice. Open to 2027 internships." />
+  <img src="./assets/hero.svg" width="100%" alt="En Cheng Neo. Diploma in Applied AI and Analytics, Nanyang Polytechnic, Singapore. Full-stack AI systems, messy data turned into decisions, serverless apps on AWS and responsible AI in practice. Open to 2027 internships in applied AI and data analytics." />
 </p>
 
 <p align="center">
@@ -19,12 +19,12 @@
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="./assets/dark/h-about.svg" />
-  <img src="./assets/light/h-about.svg" width="100%" alt="01 About me" />
+  <img src="./assets/light/h-about.svg" width="100%" alt="About me" />
 </picture>
 
 I'm En Cheng, a second-year student in the Diploma in Applied AI & Analytics at Nanyang Polytechnic, Singapore.
 
-I like building software where the AI is useful *and* checkable. Most recently I led a team of three to build a factory management information system for a real food manufacturer, with plain-English analytics, a role-aware AI assistant and in-browser person detection. It was graded A, and our team was picked to present it to the client.
+I like building software where the AI is useful *and* checkable. Most recently I led a team of three to build a factory management information system for a real food manufacturer, with plain-English analytics, a role-aware AI assistant and in-browser person detection. Our team was picked to present it to the client.
 
 I'm looking for a **2027 internship in applied AI or data analytics**, and after my diploma I'm aiming for a university degree in analytics or computing.
 
@@ -32,7 +32,7 @@ I'm looking for a **2027 internship in applied AI or data analytics**, and after
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="./assets/dark/h-toolkit.svg" />
-  <img src="./assets/light/h-toolkit.svg" width="100%" alt="02 Toolkit" />
+  <img src="./assets/light/h-toolkit.svg" width="100%" alt="Toolkit" />
 </picture>
 
 <picture>
@@ -49,34 +49,29 @@ I'm looking for a **2027 internship in applied AI or data analytics**, and after
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="./assets/dark/h-credentials.svg" />
-  <img src="./assets/light/h-credentials.svg" width="100%" alt="03 Credentials" />
+  <img src="./assets/light/h-credentials.svg" width="100%" alt="Credentials" />
 </picture>
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="./assets/dark/credentials.svg" />
-  <img src="./assets/light/credentials.svg" width="100%" alt="AWS Certified Cloud Practitioner. Alibaba Cloud Certified Associate: Cloud Engineer. AI Singapore AI4I Literacy in AI. Basic Proficiency in KNIME Analytics Platform. Distinctions at Nanyang Polytechnic in Data Wrangling and in Cybersecurity Technologies and Ethics." />
+  <img src="./assets/light/credentials.svg" width="100%" alt="AWS Certified Cloud Practitioner. Alibaba Cloud Certified Associate: Cloud Engineer. AI Singapore AI4I Literacy in AI. Basic Proficiency in KNIME Analytics Platform." />
 </picture>
-
-<br />
-
-A grades in Programming, Statistical Research Methods, Data Structures & Algorithms, Web Development Project, and Full Stack Application Development.
 
 <br />
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="./assets/dark/h-now.svg" />
-  <img src="./assets/light/h-now.svg" width="100%" alt="04 Right now" />
+  <img src="./assets/light/h-now.svg" width="100%" alt="Right now" />
 </picture>
 
 - **Studying:** Year 2, Semester 2, including a Linux module and my MLOps capstone.
 - **Looking for:** a 2027 internship in applied AI or data analytics.
-- **Next certification:** AWS Solutions Architect.
 - **Also:** subcommittee member at NYP Cloud Computing.
 
 <br />
 
 <p align="center">
-  <img src="./assets/footer.svg" width="100%" alt="Thanks for stopping by. Let's build something useful. Open to 2027 internships in applied AI and data analytics." />
+  <img src="./assets/footer.svg" width="100%" alt="Thanks for stopping by. Open to 2027 internships in applied AI and data analytics." />
 </p>
 
 <p align="center">
