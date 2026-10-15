@@ -6,7 +6,7 @@
 -->
 
 <p align="center">
-  <img src="./assets/hero.svg" width="100%" alt="En Cheng Neo. Diploma in Applied AI and Analytics, Nanyang Polytechnic, Singapore. Full-stack AI systems, messy data turned into decisions, serverless apps on AWS and responsible AI in practice. Open to 2027 internships in applied AI and data analytics." />
+  <img src="./assets/hero.svg" width="100%" alt="En Cheng Neo. Diploma in Applied AI and Analytics, Nanyang Polytechnic, Singapore. I build web apps with AI features people can check, and turn messy data into decisions. Open to 2027 internships in applied AI and data analytics." />
 </p>
 
 <p align="center">
@@ -22,11 +22,9 @@
   <img src="./assets/light/h-about.svg" width="100%" alt="About me" />
 </picture>
 
-I'm En Cheng, a second-year student in the Diploma in Applied AI & Analytics at Nanyang Polytechnic, Singapore.
-
 I like building software where the AI is useful *and* checkable. Most recently I led a team of three to build a factory management information system for a real food manufacturer, with plain-English analytics, a role-aware AI assistant and in-browser person detection. Our team was picked to present it to the client.
 
-I'm looking for a **2027 internship in applied AI or data analytics**, and after my diploma I'm aiming for a university degree in analytics or computing.
+I'm looking for a **2027 internship in applied AI or data analytics**, and after my diploma I'm aiming for a university degree in analytics or computing. I'm also a subcommittee member at NYP Cloud Computing.
 
 <br />
 
@@ -37,12 +35,12 @@ I'm looking for a **2027 internship in applied AI or data analytics**, and after
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="./assets/dark/stack.svg" />
-  <img src="./assets/light/stack.svg" width="100%" alt="Python, JavaScript, HTML, CSS, React, Vite, Node.js, Express, Flask, Tailwind CSS, PostgreSQL, Supabase, MySQL, AWS, GitHub Actions, Git" />
+  <img src="./assets/light/stack.svg" width="100%" alt="Python, JavaScript, React, Node.js, Express, Flask, Tailwind CSS, PostgreSQL, Supabase, MySQL, AWS, GitHub Actions, Git" />
 </picture>
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="./assets/dark/toolkit.svg" />
-  <img src="./assets/light/toolkit.svg" width="100%" alt="Data and AI: pandas, KNIME, data wrangling, forecasting, computer vision, text-to-SQL, LLM APIs and agents. Cloud: AWS Lambda, API Gateway, S3, DynamoDB, SAM, Alibaba Cloud, Railway, Netlify. Responsible AI: accountability and transparency, IT governance (COBIT), source-grounded AI output, privacy-first design." />
+  <img src="./assets/light/toolkit.svg" width="100%" alt="Data and AI: pandas, KNIME, data wrangling, forecasting, computer vision, text-to-SQL, LLM APIs and agents. Cloud: AWS Lambda, API Gateway, S3, DynamoDB, SAM, Alibaba Cloud. Responsible AI: accountability and transparency, IT governance (COBIT), source-grounded AI output, privacy-first design." />
 </picture>
 
 <br />
@@ -52,29 +50,7 @@ I'm looking for a **2027 internship in applied AI or data analytics**, and after
   <img src="./assets/light/h-credentials.svg" width="100%" alt="Credentials" />
 </picture>
 
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="./assets/dark/credentials.svg" />
-  <img src="./assets/light/credentials.svg" width="100%" alt="AWS Certified Cloud Practitioner. Alibaba Cloud Certified Associate: Cloud Engineer. AI Singapore AI4I Literacy in AI. Basic Proficiency in KNIME Analytics Platform." />
-</picture>
-
-<br />
-
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="./assets/dark/h-now.svg" />
-  <img src="./assets/light/h-now.svg" width="100%" alt="Right now" />
-</picture>
-
-- **Studying:** Year 2, Semester 2, including a Linux module and my MLOps capstone.
-- **Looking for:** a 2027 internship in applied AI or data analytics.
-- **Also:** subcommittee member at NYP Cloud Computing.
-
-<br />
-
-<p align="center">
-  <img src="./assets/footer.svg" width="100%" alt="Thanks for stopping by. Open to 2027 internships in applied AI and data analytics." />
-</p>
-
-<p align="center">
-  <a href="https://www.linkedin.com/in/en-cheng-neo-758838347/"><img src="./assets/badge-linkedin.svg" height="40" alt="LinkedIn" /></a>
-  <a href="mailto:neoencheng.work@gmail.com"><img src="./assets/badge-email.svg" height="40" alt="Email: neoencheng.work@gmail.com" /></a>
-</p>
+- **AWS Certified Cloud Practitioner** (Foundational), Amazon Web Services
+- **Alibaba Cloud Certified Associate: Cloud Engineer**, Alibaba Cloud
+- **AI4I Literacy in AI**, AI Singapore
+- **Basic Proficiency in KNIME Analytics Platform**, KNIME

@@ -38,8 +38,7 @@ def chip(s, x, cy, label, fill=None, stroke=None, color="#000", fam="mono", wt=5
 def hero():
     W, X = 1280, 64
     B = BRAND
-    summary = ("Full-stack AI systems, messy data turned into decisions, serverless apps on AWS "
-               "and responsible AI in practice.")
+    summary = "I build web apps with AI features people can check, and turn messy data into decisions."
     lines = wrap(summary, "sans", 400, 26, W - 2 * X - 120)
     assert len(lines) <= 2, lines
     H = 262 + len(lines) * 36 + 70
@@ -82,8 +81,7 @@ def badge(fname, icon, label, title):
 
 
 # ---------------------------------------------------------------- section headers
-SECTIONS = [("about", "About me"), ("toolkit", "Toolkit"),
-            ("credentials", "Credentials"), ("now", "Right now")]
+SECTIONS = [("about", "About me"), ("toolkit", "Toolkit"), ("credentials", "Credentials")]
 
 
 def header(T, slug, title):
@@ -96,8 +94,7 @@ def header(T, slug, title):
 ICON_DIR = next((d for d in [Path(__file__).parent / "skill-icons/icons",
                  Path(__file__).parent / "dl/skill-icons/icons"] if d.exists()),
                 Path(__file__).parent / "skill-icons/icons")   # MIT, (c) 2022 tandpfun
-STACK = [("Python", "Python"), ("JavaScript", "JavaScript"), ("HTML", "HTML"), ("CSS", "CSS"),
-         ("React", "React"), ("Vite", "Vite"), ("NodeJS", "Node.js"), ("ExpressJS", "Express"),
+STACK = [("Python", "Python"), ("JavaScript", "JavaScript"), ("React", "React"), ("NodeJS", "Node.js"), ("ExpressJS", "Express"),
          ("Flask", "Flask"), ("TailwindCSS", "Tailwind"), ("PostgreSQL", "PostgreSQL"),
          ("Supabase", "Supabase"), ("MySQL", "MySQL"), ("AWS", "AWS"),
          ("GithubActions", "Actions"), ("Git", "Git")]
@@ -117,7 +114,7 @@ def icon_inner(name, theme, k):
 
 
 def stack(T):
-    W, cols, pad, icon = 1200, 8, 36, 64
+    W, cols, pad, icon = 1200, 7, 36, 64
     cw = (W - 2 * pad) / cols
     rowh = icon + 12 + 18 + 30
     H = pad + rowh * 2 - 30 + pad - 6
@@ -137,7 +134,7 @@ def stack(T):
 PRACTICES = [
     ("Data & AI", ["pandas", "KNIME", "data wrangling", "forecasting", "computer vision",
                    "text-to-SQL", "LLM APIs & agents"]),
-    ("Cloud", ["AWS Lambda", "API Gateway", "S3", "DynamoDB", "SAM", "Alibaba Cloud", "Railway", "Netlify"]),
+    ("Cloud", ["AWS Lambda", "API Gateway", "S3", "DynamoDB", "SAM", "Alibaba Cloud"]),
     ("Responsible AI", ["accountability & transparency", "IT governance (COBIT)", "source-grounded AI output",
                         "privacy-first design"]),
 ]
@@ -176,54 +173,8 @@ def toolkit(T):
     save(s, f'{T["name"]}/toolkit.svg')
 
 
-# -------------------------------------------------------------- credentials card
-CREDS = [
-    ("cert", "AWS · Foundational", "AWS Certified Cloud Practitioner"),
-    ("cert", "Alibaba Cloud · Associate", "Certified Associate: Cloud Engineer"),
-    ("cert", "AI Singapore", "AI4I Literacy in AI"),
-    ("cert", "KNIME", "Basic Proficiency in KNIME Analytics Platform"),
-]
-
-
-def credentials(T):
-    W, cols, gap, th = 1200, 2, 20, 156
-    tw = (W - gap * (cols - 1)) / cols
-    H = th * 2 + gap
-    s = Svg(W, H, "Credentials",
-            "Certifications: " + "; ".join(n for k, _, n in CREDS if k == "cert") + ".")
-    for i, (kind, label, name) in enumerate(CREDS):
-        x, y = (i % cols) * (tw + gap), (i // cols) * (th + gap)
-        s.add(f'<rect x="{x + 1:.1f}" y="{y + 1}" width="{tw - 2:.1f}" height="{th - 2}" rx="15" '
-              f'fill="{T["card"]}" stroke="{T["border"]}" stroke-width="2"/>')
-        ix, iy = x + 28, y + 24
-        s.add(f'<g transform="translate({ix:.1f} {iy})" fill="none" stroke="{T["accg"]}" stroke-width="2.2" '
-              f'stroke-linejoin="round" stroke-linecap="round"><path d="M14 1l12 7v14l-12 7-12-7V8z"/>'
-              f'<path d="M9 15l3.5 3.5L19.5 11"/></g>')
-        s.add(s.text(x + 72, y + 45, label, "sans", 500, 17, T["mute"]))
-        lines = wrap(name, "sg", 700, 23, tw - 56)
-        assert len(lines) <= 2, lines
-        for j, ln in enumerate(lines):
-            s.add(s.text(x + 28, y + 96 + j * 30, ln, "sg", 700, 23, T["ink"], ls=-0.3))
-    save(s, f'{T["name"]}/credentials.svg')
-
-
-# --------------------------------------------------------------------------- footer
-def footer():
-    W, H = 1280, 96
-    B = BRAND
-    msg = "Thanks for stopping by. Open to 2027 internships in applied AI and data analytics."
-    assert measure(msg, "sans", 400, 22) < W - 128
-    s = Svg(W, H, "Thanks for stopping by",
-            "Open to 2027 internships in applied AI and data analytics.")
-    s.add(f'<rect x=".75" y=".75" width="{W - 1.5}" height="{H - 1.5}" rx="18" fill="{B["bg"]}" '
-          f'stroke="{B["edge"]}" stroke-width="1.5"/>',
-          s.text(64, 56, msg, "sans", 400, 22, B["ink2"]))
-    save(s, "footer.svg")
-
-
 if __name__ == "__main__":
     hero()
-    footer()
     badge("badge-linkedin.svg", "linkedin", "LinkedIn", "LinkedIn profile")
     badge("badge-email.svg", "email", "neoencheng.work@gmail.com", "Email")
     badge("badge-location.svg", "pin", "Singapore", "Based in Singapore")
@@ -232,6 +183,5 @@ if __name__ == "__main__":
             header(T, slug, title)
         stack(T)
         toolkit(T)
-        credentials(T)
     for f in sorted((OUT / "assets").rglob("*.svg")):
         print(f"{f.relative_to(OUT)}  {f.stat().st_size / 1024:.1f} KB")
