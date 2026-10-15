@@ -1,0 +1,5 @@
+tools/node_modules/
+tools/skill-icons/
+tools/package*.json
+_preview.html
+__pycache__/
